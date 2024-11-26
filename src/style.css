@@ -10,7 +10,7 @@
 
 :root {
     background: #fffdfa;
-    font-family: 'Work Sans';
+    font-family: 'Inter', 'Work Sans';
 }
 
 @font-face {
@@ -24,4 +24,17 @@
     font-weight: 100 900;
     font-style: italic;
     src: url('./assets/Fonts/Work Sans/WorkSans-Italic-VariableFont_wght.ttf') format('TrueType');
+}
+
+@font-face {
+    font-family: 'Inter';
+    font-weight: 100 900;
+    src: url('./assets/Fonts/Inter/Inter-Italic-VariableFont_opsz,wght.ttf') format('TrueType');
+}
+
+@font-face {
+    font-family: 'Inter';
+    font-weight: 100 900;
+    font-style: italic;
+    src: url('./assets/Fonts/Inter/Inter-VariableFont_opsz,wght.ttf') format('TrueType');
 }
