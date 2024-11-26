@@ -29,12 +29,12 @@
 @font-face {
     font-family: 'Inter';
     font-weight: 100 900;
-    src: url('./assets/Fonts/Inter/Inter-Italic-VariableFont_opsz,wght.ttf') format('TrueType');
+    src: url('./assets/Fonts/Inter/Inter-VariableFont_opsz,wght.ttf') format('TrueType');
 }
 
 @font-face {
     font-family: 'Inter';
     font-weight: 100 900;
     font-style: italic;
-    src: url('./assets/Fonts/Inter/Inter-VariableFont_opsz,wght.ttf') format('TrueType');
+    src: url('./assets/Fonts/Inter/Inter-Italic-VariableFont_opsz,wght.ttf') format('TrueType');
 }
