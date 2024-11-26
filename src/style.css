@@ -11,6 +11,8 @@
 :root {
     background: #fffdfa;
     font-family: 'Inter', 'Work Sans';
+
+    --text-primary: #133020;
 }
 
 @font-face {
