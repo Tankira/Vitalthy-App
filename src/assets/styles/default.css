@@ -1,9 +1,9 @@
-/* Font */
 @font-face {
     font-family: 'Inter';
     font-weight: 100 900;
     src: url('../fonts/Inter-VariableFont.ttf') format('TrueType');
 }
+
 @font-face {
     font-family: 'Inter';
     font-weight: 100 900;
@@ -11,13 +11,11 @@
     src: url('../fonts/Inter-Italic-VariableFont.ttf') format('TrueType');
 }
 
-/* Main */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
     user-select: none;
-    text-decoration: none;
     -webkit-tap-highlight-color: transparent;
 }
 

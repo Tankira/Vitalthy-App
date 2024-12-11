@@ -1,44 +1,65 @@
-/* Body */
 body {
     display: grid;
     align-content: center;
+    justify-content: center;
+    grid-template-rows: 0.95fr;
+    grid-template-columns: 0.9fr;
     height: 100vh;
 }
 
-/* Container */
 #container {
     display: grid;
-    grid-template-rows: 0.25fr 1fr 0.8fr;
-    justify-items: center;   
-    gap: 24px;
+    grid-template-rows: 1fr min-content 1fr min-content;
+    height: 100%;
 }
 
-/* Logo */
+/* Part 1/3 */
 #container > h1 {
+    align-self: center;
+    justify-self: center;
+    color: light-dark(#1B5E3A, #fff);
     font-size: 40px;
     font-weight: 900;
 }
 
-/* Form */
+/* Part 2/3 */
 #container > form {
     display: grid;
-    width: 78%;
     gap: 16px;
     text-align: center;
 }
 
-#container > form > #oauth-container {
+#container > form > .oauth {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: 16px;
-    justify-content: center;
 }
 
-/* RouterLink */
+/* Part 3/3 */
 #container > a {
     align-self: end;
 }
 
+/* Credit */
+#container > p {
+    color: #999;
+    font-weight: bold;
+    font-size: 12px;
+    margin-top: 24px;
+    text-align: center;
+}
+
+/* Config other component */
+.p-inputtext {
+    height: 4rem;
+}
+
+.p-button {
+    height: 2.75rem;
+}
+
 * a {
+    color: var(--p-primary-color);
+    text-decoration: none;
     font-weight: bold;
 }
