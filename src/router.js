@@ -1,5 +1,6 @@
 import { createWebHistory, createRouter } from "vue-router"
 import { getCurrentUser } from "./uses/auth"
+import { readData } from "./uses/data"
 
 const router = createRouter({
     history: createWebHistory(),
@@ -17,12 +18,20 @@ const router = createRouter({
             path: '/register',
             component: () => import('./pages/Register.vue'),
         },
+        {
+            path: '/setup',
+            component: () => import('./pages/Setup.vue'),
+            meta: { requireAuth: true }
+        }
     ]
 })
 
 router.beforeEach(async (to, from) => {
-    if (to.meta.requireAuth && !await getCurrentUser()) { return {path: '/login'} }
-    if (to.path === '/login' || to.path === '/register' && await getCurrentUser()) { return {path: '/'} }
+    const currentUser = await getCurrentUser()
+    if (to.meta.requireAuth && !currentUser) { return {path: '/login'} }
+    if (to.meta.setupComplete && !await readData(currentUser.uid, "setup")) { return {path: '/setup'} }
+    if (await currentUser && to.path === '/login') { return {path: '/'} }
+    if (await currentUser && to.path === '/register') { return {path: '/'} }
 })
 
 export default router

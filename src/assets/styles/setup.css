@@ -1,0 +1,33 @@
+body {
+    padding: 24px;
+}
+
+#container {
+    display: grid;
+    gap: 32px;
+}
+
+/* Part 1/2 */
+#container > .tips > h1 {
+    color: light-dark(#1B5E3A, #fff);
+}
+
+#container > .radio-container > .radio-component {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    border: solid 1px wheat;
+    height: 54px;
+}
+
+#submit {
+    margin-top: 16px;
+}
+
+/*  Config */
+.p-inputtext {
+    height: 64px;
+}
+
+.p-button {
+    height: 54px;
+}
