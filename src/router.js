@@ -12,18 +12,17 @@ const router = createRouter({
         {
             path: '/login',
             component: () => import('./pages/Login.vue'),
-            meta: { authComponent: true }
         },
         {
             path: '/register',
             component: () => import('./pages/Register.vue'),
-            meta: { authComponent: true }
         },
     ]
 })
 
 router.beforeEach(async (to, from) => {
     if (to.meta.requireAuth && !await getCurrentUser()) { return {path: '/login'} }
+    if (to.path === '/login' || to.path === '/register' && await getCurrentUser()) { return {path: '/'} }
 })
 
 export default router
