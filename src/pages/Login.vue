@@ -75,8 +75,10 @@
             <RouterLink to="/" style="margin-top: 16px;">Bạn quên mật khẩu?</RouterLink>
             
         </form>
-        <Button as="router-link" to="/register" rounded size="large" variant="outlined">Tạo tài khoản mới</Button>
-        <p>From Sơn Phước Primary & Secondary School with love 💖</p>
+        <div class="last-component">
+            <Button as="router-link" to="/register" rounded size="large" variant="outlined">Tạo tài khoản mới</Button>
+            <p>From Sơn Phước Primary & Secondary School with love 💖</p>
+        </div>
     </div>
 
     <Dialog v-model:visible="visible" :header="error" modal>
