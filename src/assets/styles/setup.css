@@ -2,9 +2,26 @@ body {
     padding: 24px;
 }
 
+#app {
+    display: grid;
+    position: relative;
+}
+
+#back-button {
+    position: absolute;
+    width: 48px;
+    height: 48px;
+    left: -16px;
+}
+
+#back-button > .p-button-icon {
+    font-size: 24px;
+}
+
 #container {
     display: grid;
     gap: 32px;
+    margin-top: 4rem;
 }
 
 /* Part 1/2 */
@@ -12,15 +29,37 @@ body {
     color: light-dark(#1B5E3A, #fff);
 }
 
+#container > .radio-container {
+    border: solid 1px var(--p-primary-color);
+    border-radius: 8px;
+}
+
 #container > .radio-container > .radio-component {
     display: grid;
     grid-template-columns: 1fr auto;
-    border: solid 1px wheat;
-    height: 54px;
+    align-items: center;
+    padding-left: 16px;
+    padding-right: 16px;
+    height: 64px;
+}
+
+#container > .radio-container > .radio-component:not(:last-child) {
+    border-bottom: solid 1px var(--p-primary-color);
+}
+
+#container > .datepicker {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
 }
 
 #submit {
     margin-top: 16px;
+}
+
+.error {
+    color: red;
+    margin-top: 24px;
 }
 
 /*  Config */
@@ -31,3 +70,36 @@ body {
 .p-button {
     height: 54px;
 }
+
+/* Animation */
+.enter-active, .leave-active {
+    transition: transform 500ms ease-in-out, opacity 500ms ease-in-out;
+}
+
+.enter-from {
+    transform: translateX(100%);
+    opacity: 0;
+}
+
+.enter-to {
+    transform: translateX(0);
+    opacity: 1;
+}
+
+.leave-from {
+    transform: translateX(0);
+    opacity: 1;
+}
+
+.leave-to {
+    transform: translateX(-100%);
+    opacity: 0;
+}
+
+.transition-wrapper {
+    width: 100%;
+    height: 300px; /* Hoặc chiều cao cố định phù hợp */
+    position: relative;
+    overflow: hidden;
+}
+

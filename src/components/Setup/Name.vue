@@ -1,5 +1,5 @@
 <script setup>
-    const model = defineModel()
+    const name = defineModel({required: true})
     import { FloatLabel, InputText } from 'primevue';
 </script>
 <template>

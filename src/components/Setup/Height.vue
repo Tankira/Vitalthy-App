@@ -1,5 +1,5 @@
 <script setup>
-    const model = defineModel()
+    const height = defineModel({required: true})
     import { FloatLabel, Select } from 'primevue';
 
     const heights = (min, max) => {
@@ -23,7 +23,7 @@
         </div>
 
         <FloatLabel variant="in">
-            <Select v-model="model" :options="heights(140,200)" optionLabel="name" optionValue="value" required fluid/>
+            <Select v-model="height" :options="heights(140,200)" optionLabel="name" optionValue="value" required fluid/>
             <label>Chiều cao</label>
         </FloatLabel>
     </div>

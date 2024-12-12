@@ -1,5 +1,5 @@
 <script setup>
-    const model = defineModel()
+    const gender = defineModel()
     import { RadioButton } from 'primevue';
 </script>
 <template>
@@ -12,11 +12,11 @@
         <div class="radio-container">
             <div class="radio-component">
                 <label>Nam</label>
-                <RadioButton/>
+                <RadioButton v-model="gender" inputId="male" value="male"/>
             </div>
             <div class="radio-component">
                 <label>Nữ</label>
-                <RadioButton/>
+                <RadioButton v-model="gender" inputId="female" value="female"/>
             </div>
         </div>
     </div>
