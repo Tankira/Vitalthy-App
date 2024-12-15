@@ -1,0 +1,9 @@
+Giai doan I:
+- Account Database: [x]
+- Router: [x]
+- Login Page: [x]
+- Register Page: [x]
+- Guest Mode: [x]
+- Setup: [x]
+- Navbar: [x]
+- Home: [x] 
