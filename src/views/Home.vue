@@ -1,61 +1,56 @@
 <script setup>
-    import { reactive } from 'vue'
+    import Navbar from '../components/navbar/Navbar.vue';
     import { useAccountStore } from '../stores/account'
-    import { Card, Knob, Button } from 'primevue'
-    import Navbar from '../components/Navbar/Navbar.vue'
-    import { useRouter } from 'vue-router'
+    import { computed, reactive } from 'vue';
+    import { Knob, Button } from 'primevue';
 
-    const router = useRouter()
     const data = reactive({
         name: useAccountStore().data.user.name,
-        weight: useAccountStore().data.user.weight
+        time: computed(() => { 
+            if (new Date().getHours() > 4 && new Date().getHours() < 12) {
+                return 'buổi sáng'
+            } else if (new Date().getHours() > 12 && new Date().getHours() < 18) {
+                return 'buổi chiều'
+            } else {
+                return 'buổi tối'
+            }
+        }),
+        weight: useAccountStore().data.user.weight,
     })
-
-    const timeGreeting = () => {
-        const thisHour = new Date().getHours()
-        if (thisHour > 4 &&  thisHour < 12) { return 'Chúc bạn buổi sáng vui vẻ!' }
-        else if (thisHour > 12 && thisHour < 18) { return 'Chúc bạn buổi chiều vui vẻ!' }
-        else { return 'Chúc bạn buổi tối vui vẻ!' }
-    }
 </script>
 
 <template>
     <div id="container">
-        <div id="component-container">
-            <div class="component-1">
-                <h1>Xin chào,  {{ data.name }}!</h1>
-                <p>{{ timeGreeting() }}</p>
-            </div>
-
-            <Card>
-                <template #content>
-                    <Knob v-model="data.weight" valueTemplate="{value}kg" readonly/>
-                    <Button label="Nhập thủ công" @click="$router.push('/manualinput')" rounded fluid/>
-                </template>
-            </Card>
+        <div class="tips">
+            <h2>Hi, {{ data.name }}!</h2>
+            <p>Chúc bạn {{ data.time }} vui vẻ! ✨</p>
         </div>
 
-        <Navbar/>
+        <div class="content">
+            <div class="card">
+                <div class="card-component1">
+                    <Knob v-model="data.weight" valueTemplate="{value} kg" :strokeWidth="5" readonly/>
+
+                </div>
+                <Button label="Nhập thủ công" style="margin-top: 16px;" @click="$router.push({path: '/result', query: {manualinput: true}})" rounded fluid/>
+            </div>
+        </div>
     </div>
+
+    <Navbar/>
 </template>
 
 <style scoped>
-
     #container {
         display: grid;
-        grid-template-rows: 1fr min-content;
-        height: 100vh;
+        grid-template-rows: min-content 1fr;
+        gap: 2rem;
+        padding: 2rem;
     }
 
-    #component-container {
-        display: grid;
-        grid-template-rows: repeat(3, min-content);
-        gap: 24px;
-        padding: 32px;
-    }
-
-    #component-container > .p-card > .p-card-body > .p-card-content > .p-button {
-        margin-top: 16px;
-        height: 3.25rem;
+    #container > .content > .card {
+        background: #9999992A;
+        border-radius: 8px;
+        padding: 2rem;
     }
 </style>

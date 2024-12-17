@@ -45,7 +45,7 @@
         gap: 16px;
         padding-top: 16px;
         padding-bottom: 16px;
-        /* position: fixed; */
+        position: fixed;
         bottom: 0;
         /* border-top: solid 1px #9999998a; */
         width: 100%;

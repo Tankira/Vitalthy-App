@@ -13,28 +13,15 @@
         loading: null
     })
 
-    const createUser = async () => {
-        data.loading = true
-        const { getAuth, createUserWithEmailAndPassword } = await import('firebase/auth')
-        const { useAccountStore } = await import('../stores/account')
-        const { createUserData } = await import('../functions/data')
+    const loginUser = async () => {
+        const { getAuth, signInWithEmailAndPassword } = await import('firebase/auth')
 
         try {
-            const user = await createUserWithEmailAndPassword(getAuth(), data.email, data.password)
-            useAccountStore().updateData({
-                uid: user.user.uid,
-                email: user.user.email,
-                type: user.user.providerId,
-                setup: false
-            })
-            createUserData(user.user.uid, {
-                uid: user.user.uid,
-                email: user.user.email,
-                type: user.user.providerId,
-                setup: false
-            })
-            router.push('/setup')
-        } catch (error) {
+            data.loading = true
+            await signInWithEmailAndPassword(getAuth(), data.email, data.password)
+            router.push('/')
+        } 
+        catch (error) {
             data.loading = false
             switch (error.code) {
                 case "auth/invalid-email":
@@ -49,12 +36,8 @@
                 case "auth/invalid-credential":
                     data.error = 'Email hoặc mật khẩu không đúng.'
                     break
-                case "auth/email-already-in-use":
-                    data.error = 'Email này đã tồn tại'
-                    errorTips.value = 'Email mà bạn dùng để đăng ký đã tồn tại, vui lòng thử lại với email khác.'
-                    break
                 case "auth/network-request-failed":
-                    data.error = 'Không thể kết nối tới máy chủ xác thực'
+                    error.value = 'Không thể kết nối tới máy chủ xác thực'
                     data.errorTips = 'Kiểm tra lại đã bật Wi-fi, 4G chưa, rồi đăng nhập lại bạn nhé! Nếu vẫn không được, hãy báo cáo với nhà phát triển để được hỗ trợ'
                     break
                 default:
@@ -65,45 +48,41 @@
         }
     }
 
-    const handleGuest = async () => {
+    const guestUser = async () => {
         const { useAccountStore } = await import('../stores/account')
         useAccountStore().updateData({type: 'guest', setup: false})
-        router.push('setup')
+        router.push('/setup')
     }
 </script>
 
 <template>
     <div id="container">
         <h1>Vitalthy</h1>
-        <form @submit.prevent="createUser">
-            <FloatLabel variant="in">
+        <form @submit.prevent="loginUser">
+            <FloatLabel variant="on">
                 <InputText v-model="data.email" class="p-input" type="email" required fluid/>
                 <label>Email</label>
             </FloatLabel>
-            <FloatLabel variant="in">
+            <FloatLabel variant="on">
                 <Password v-model="data.password" class="p-input" :feedback="false" required fluid toggleMask/>
                 <label>Mật khẩu</label>
             </FloatLabel>
-            <Button label="Đăng ký" :loading="data.loading" type="submit" rounded fluid/>
-            <div class="seperate-bar">
-                <div></div>
-                <p>HOẶC ĐĂNG KÝ VỚI</p>
-                <div></div>
-            </div>
-            <Button icon="pi pi-user" label="Khách" variant="outlined" @click="handleGuest" rounded fluid/>
+            <Button label="Đăng nhập" :loading="data.loading" type="submit" rounded fluid/>
+            <Button icon="pi pi-user" label="Khách" @click="guestUser" rounded fluid/>
             <div class="oauth">
-                <Button icon="pi pi-google" label="Google" variant="outlined" rounded fluid/>
-                <Button icon="pi pi-facebook" label="Facebook" variant="outlined" rounded fluid/>
+                <Button icon="pi pi-google" label="Google" rounded fluid/>
+                <Button icon="pi pi-facebook" label="Facebook" rounded fluid/>
             </div>
+
         </form>
         <div class="last-component">
-            <Button label="Quay về trang đăng nhập" as="router-link" to="/login" variant="outlined" rounded fluid/>
-            <p style="margin-top: 16px;">From Sơn Phước Primary & Secondary School with love 💖</p>
+            <Button label="Tạo tài khoản" as="router-link" to="/register" variant="outlined" rounded fluid/>
+            <p>From Sơn Phước Primary & Secondary School with love  💖</p>
         </div>
     </div>
 
     <Dialog v-model:visible="data.error" :header="data.error" modal style="width: 80%;">
-        <p>{{ data.errorTips }}</p>
+        {{ data.errorTips }}
     </Dialog>
 </template>
 
@@ -111,54 +90,35 @@
     #container {
         display: grid;
         grid-template-rows: 0.5fr auto 1fr;
-        height: 100vh;
         text-align: center;
-        padding: 32px;
+        height: 100vh;
+        padding: 2rem;
     }
 
     #container > h1 {
         align-self: center;
         font-size: 42px;
-        font-weight: 900;
     }
 
     #container > form {
         display: grid;
-        gap: 16px;
-    }
-
-    #container > form > .seperate-bar {
-        display: flex;
-        align-items: center;
-    }
-
-    #container > form > .seperate-bar > p {
-        font-size: 12px;
-        margin-left: 12px;
-        margin-right: 12px;
-    }
-
-    #container > form > .seperate-bar > div {
-        flex: 1;
-        background: #9999995A;
-        width: 100%;
-        height: 0.125rem;
+        gap: 1rem;
     }
 
     #container > form > .oauth {
         display: grid;
         grid-template-columns: repeat(2, 1fr);
-        gap: 16px;
+        gap: 1rem;
     }
 
     #container > .last-component {
         align-self: end;
+        display: grid;
+        gap: 1rem;
+        font-size: 12px;
         color: #999;
-        font-size: 14px;
-        font-weight: bold;
     }
 
-    /* UI Config */
     .p-input {
         height: 4rem;
     }
@@ -168,6 +128,6 @@
     }
 
     * a {
-        text-decoration: none;
+        text-decoration: none
     }
 </style>

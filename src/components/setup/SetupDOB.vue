@@ -1,7 +1,7 @@
 <script setup>
     import { ref } from 'vue';
     import { FloatLabel, Select, Message, Button } from 'primevue';
-    const emit = defineEmits(['incStep'])
+    const emit = defineEmits(['incStep', 'decStep'])
     const value = defineModel()
     const error = defineModel('error')
 
@@ -92,8 +92,10 @@
 
             <Message v-if="error" severity="error" icon="pi pi-exclamation-circle" variant="simple">Ngày/Tháng/Năm không được để trống</Message>
 
-            <Button label="Tiếp" type="submit" rounded fluid/>
-            <Button @click="$emit('decStep')" class="backButton" label="Trở lại" variant="outlined" rounded fluid/>
+            <div class="action-button">
+                <Button @click="$emit('decStep')" class="backButton" label="Trở lại" variant="outlined" rounded fluid/>
+                <Button label="Tiếp" type="submit" rounded fluid/>
+            </div>
         </form>
     </div>
 </template>
@@ -117,6 +119,12 @@
 
     #container > form > .datepicker > .p-floatlabel > .p-inputwrapper-filled > * {
         margin-top: 6px;
+    }
+
+    #container > form > .action-button {
+        display:  grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 16px;
     }
 
     .p-select {

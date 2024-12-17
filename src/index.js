@@ -2,16 +2,16 @@ import { createApp } from "vue"
 import { createPinia } from "pinia"
 import { initializeApp } from "firebase/app"
 import { getDatabase } from "firebase/database"
-import piniaPluginPersistedstate from 'pinia-plugin-persistedstate'
-import index from './index.vue'
+import piniaPS from "pinia-plugin-persistedstate"
+import index from "./index.vue"
 import router from './router'
-import primeVue  from 'primevue/config'
-import aura from '@primevue/themes/aura'
+import primeVue from "primevue/config"
+import aura from "@primevue/themes/aura"
 import 'primeicons/primeicons.css'
 
 // Pinia
 const pinia = createPinia()
-pinia.use(piniaPluginPersistedstate)
+pinia.use(piniaPS)
 
 // Firebase
 const firebaseApp = initializeApp({

@@ -1,5 +1,4 @@
-import { createRouter, createWebHistory } from "vue-router";
-
+import { createRouter, createWebHistory } from "vue-router"
 const router = createRouter({
     history: createWebHistory(),
     routes: [
@@ -10,18 +9,17 @@ const router = createRouter({
         },
         {
             path: '/login',
-            component: () => import('./views/Login.vue'),
-            meta: { skipTransition: true }
+            component: () => import('./views/AuthLogin.vue'),
+            meta: { noAccessAfterAuth: true }
         },
         {
             path: '/register',
-            component: () => import('./views/Register.vue'),
-            meta: { skipTransition: true }
+            component: () => import('./views/AuthRegister.vue'),
+            meta: { noAccessAfterAuth: true }
         },
         {
             path: '/setup',
             component: () => import('./views/Setup.vue'),
-            meta: { requireAuth: true }
         },
         {
             path: '/option',
@@ -29,23 +27,18 @@ const router = createRouter({
             meta: { requireAuth: true, requireSetup: true }
         },
         {
-            path: '/manualinput',
-            component: () => import('./views/ManualInput.vue'),
-            meta: { requireAuth: true, requireSetup: true }
-        },
-        {
             path: '/result',
-            component: () => import('./views/WeightResult.vue'),
+            component: () => import('./views/Result.vue'),
             meta: { requireAuth: true, requireSetup: true }
         }
     ]
 })
 
-// Function
-const getCurrentUserAuthStatus = async () => {
+// Functions
+const currentAuthStatus = async () => {
     const { getAuth, onAuthStateChanged } = await import('firebase/auth')
     const { useAccountStore } = await import('./stores/account')
-    const { readData } = await import('./functions/data')
+    const { readData } = await import('./uses/data')
 
     return new Promise((resolve) => {
         const unsub = onAuthStateChanged(
@@ -64,13 +57,13 @@ const getCurrentUserAuthStatus = async () => {
 }
 
 // Guards
-router.beforeEach(async (to,from) => {
-    const user = await getCurrentUserAuthStatus()
+router.beforeEach(async (to, from) => {
+    const user = await currentAuthStatus()
     const { useAccountStore } = await import('./stores/account')
     if (!user && to.meta.requireAuth) { return {path: '/login'} }
     if (!useAccountStore().data.setup && to.meta.requireSetup) { return {path: '/setup'} }
     if (useAccountStore().data.setup && to.path === '/setup') { return {path: '/'} }
-    if (user && (to.path === '/login' || to.path === '/register')) { return {path: '/'} }
+    if (user && to.meta.noAccessAfterAuth) { return {path: '/'} }
 })
 
 export default router

@@ -1,100 +1,101 @@
 <script setup>
-    import { ProgressBar } from 'primevue';
-    import { defineAsyncComponent, reactive, computed } from 'vue';
-    import { useRouter } from 'vue-router';
+    import { ProgressBar } from 'primevue'
+    import { reactive, computed, defineAsyncComponent } from 'vue'
+    import { useRouter } from 'vue-router'
     const router = useRouter()
-    const Name = defineAsyncComponent(() => import('../components/setup/Name.vue'))
-    const Gender = defineAsyncComponent(() => import('../components/setup/Gender.vue'))
-    const Height = defineAsyncComponent(() => import('../components/setup/Height.vue'))
-    const DateOfBirth = defineAsyncComponent(() => import('../components/setup/DateOfBirth.vue'))
-    const Done = defineAsyncComponent(() => import('../components/setup/Done.vue'))
+    
+    // Lazy component
+    const Name = defineAsyncComponent(() => import('../components/setup/SetupName.vue'))
+    const Gender = defineAsyncComponent(() => import('../components/setup/SetupGender.vue'))
+    const Height = defineAsyncComponent(() => import('../components/setup/SetupHeight.vue'))
+    const TDEE = defineAsyncComponent(() => import('../components/setup/SetupTDEE.vue'))
+    const DOB = defineAsyncComponent(() => import('../components/setup/SetupDOB.vue'))
+    const Done = defineAsyncComponent(() => import('../components/setup/SetupDone.vue'))
 
+    // Reactive list
     const data = reactive({
-        name: '',
-        gender: null,
+        name: null,
+        gender: 'male',
         height: 140,
-        dateOfBirth: {day: 1, month: 1, year: 2024},
+        rtdee: 1.2,
+        dob: {day: 1, month: 1, year: 2024},
         step: 1,
     })
 
-    const steps = {
-        1: Name,
-        2: Gender,
-        3: Height,
-        4: DateOfBirth,
-        5: Done
-    }
+    const component = { 1: Name, 2: Gender, 3: Height, 4: TDEE, 5: DOB, 6: Done  }
+    const model = { 1: 'name', 2: 'gender', 3: 'height', 4: 'rtdee', 5: 'dob' }
 
-    const model = {
-        1: "name",
-        2: "gender",
-        3: "height",
-        4: "dateOfBirth"
-    }
-
-    const currentComponent = computed(() => steps[data.step] || null)
+    const currentComponent = computed(() => component[data.step] || null)
     const currentModel = computed(() => model[data.step] || null)
 
-    const setup = async () => {
-        const { updateData } = await import('../functions/data')
+    // Handle Setup
+    const handleSetup = async () => {
+        const { updateData } = await import('../uses/data')
         const { useAccountStore } = await import('../stores/account')
 
         if (useAccountStore().data.guest) {
             useAccountStore().updateData({
                 name: data.name,
+                age: (new Date().getFullYear()) - data.dob['year'],
                 gender: data.gender,
-                height: (data.height/100),
-                dateOfBirth: data.dateOfBirth,
+                height: data.height,
+                rtdee: data.rtdee,
+                dob: data.dob,
                 weight: 0,
-                setup: true,
+                setup: true
             })
         } else {
             useAccountStore().updateData({
                 name: data.name,
+                age: (new Date().getFullYear()) - data.dob['year'],
                 gender: data.gender,
-                height: (data.height/100),
-                dateOfBirth: data.dateOfBirth,
+                height: data.height,
+                rtdee: data.rtdee,
+                dob: data.dob,
                 weight: 0,
-                setup: true,
+                setup: true
             })
-            
             updateData({
                 name: data.name,
+                age: (new Date().getFullYear()) - data.dob['year'],
                 gender: data.gender,
-                height: (data.height/100),
-                dateOfBirth: data.dateOfBirth,
+                height: data.height,
+                rtdee: data.rtdee,
+                dob: data.dob,
                 weight: 0,
                 setup: true
             })
         }
-
         setTimeout(() => {
             router.push('/')
-        }, 3000)
+        }, 1500);
     }
 </script>
 
 <template>
-    
     <Transition name="fade" mode="out-in">
-        <ProgressBar v-if="data.step < 5" :value="data.step*20" :showValue="false"/>
+        <ProgressBar :value="data.step*18" :showValue="false"/>
     </Transition>
     <Transition name="fade" mode="out-in">
-        <component :is="currentComponent" v-model="data[currentModel]" @incStep="data.step++" @decStep="data.step--" @setup="setup"/>
+        <component :is="currentComponent" v-model="data[currentModel]" @incStep="data.step++" @decStep="data.step--" @setup="handleSetup"/>
     </Transition>
 </template>
 
 <style scoped>
+    /* Progress Bar */
     .p-progressbar {
-        margin: 32px;
-        margin-bottom: 12px;
-        border-radius: 50px;
-    }
-    
-    .p-progressbar > * {
-        border-radius: 50px !important;
+        margin-top: 2rem;
+        margin-left: 2rem;
+        margin-right: 2rem;
+        border-radius: 3.125rem;
+        height: 0.5rem;
     }
 
+    .p-progressbar > * {
+        border-radius: 3.125rem;
+    }
+
+    /* Animation */
     .fade-enter-active,
     .fade-leave-active {
         transition: opacity 0.5s ease;
