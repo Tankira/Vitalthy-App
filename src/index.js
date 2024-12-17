@@ -7,6 +7,7 @@ import index from "./index.vue"
 import router from './router'
 import primeVue from "primevue/config"
 import aura from "@primevue/themes/aura"
+import ConfirmationService from 'primevue/confirmationservice';
 import 'primeicons/primeicons.css'
 
 // Pinia
@@ -30,4 +31,5 @@ createApp(index)
     .use(pinia)
     .use(router)
     .use(primeVue, {theme: {preset: aura}})
+    .use(ConfirmationService)
     .mount('#app')

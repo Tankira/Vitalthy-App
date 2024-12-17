@@ -6,7 +6,8 @@ export const useAccountStore = defineStore('accounts', () => {
     const data = reactive({
         user: {},
         guest: computed(() => ('type' in data.user && data.user['type'] === 'guest')),
-        setup: computed(() => ('setup' in data.user && data.user['setup']))
+        setup: computed(() => ('setup' in data.user && data.user['setup'])),
+        logOut: computed(() => ('logOut' in data.user && data.user['logOut']))
     })
 
     const healthIndex = reactive({

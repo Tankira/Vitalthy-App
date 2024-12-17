@@ -1,5 +1,5 @@
 <script setup>
-    import Navbar from '../components/navbar/Navbar.vue';
+    import Navbar from '../components/navbar/navbar.vue';
     import { useAccountStore } from '../stores/account'
     import { computed, reactive } from 'vue';
     import { Knob, Button } from 'primevue';
@@ -22,7 +22,7 @@
 <template>
     <div id="container">
         <div class="tips">
-            <h2>Hi, {{ data.name }}!</h2>
+            <h2>Xin chào, {{ data.name }}!</h2>
             <p>Chúc bạn {{ data.time }} vui vẻ! ✨</p>
         </div>
 

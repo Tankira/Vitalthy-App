@@ -61,6 +61,7 @@ router.beforeEach(async (to, from) => {
     const user = await currentAuthStatus()
     const { useAccountStore } = await import('./stores/account')
     if (!user && to.meta.requireAuth) { return {path: '/login'} }
+    // if (!useAccountStore().data.logOut && to.meta.requireAuth) { return {path: '/login'} }
     if (!useAccountStore().data.setup && to.meta.requireSetup) { return {path: '/setup'} }
     if (useAccountStore().data.setup && to.path === '/setup') { return {path: '/'} }
     if (user && to.meta.noAccessAfterAuth) { return {path: '/'} }
